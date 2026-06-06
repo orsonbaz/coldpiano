@@ -18,7 +18,7 @@
 
 const BRIEF = {
   name: "Cold Piano",
-  subtitle: "An olfactive elegy for the Arctic",
+  subtitle: "An olfactive study of the Arctic",
   maxMaterials: 12,
   budgetEurKg: 60,
   ifraCategory: 4,
@@ -46,7 +46,7 @@ const MATERIALS = [
     parts: 250, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 10, priceAdj: 10,
     descriptor: "Fresh, clean and woody. A transparent haze of cedar and violet.",
-    role: "The grain of the wooden body. It carries the warm breath the instrument gives off into freezing air."
+    role: "The woody backbone and most of the diffusion. Dry and transparent, it stands in for the body of the instrument."
   },
   {
     name: "Habanolide",
@@ -54,7 +54,7 @@ const MATERIALS = [
     parts: 220, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 32, priceAdj: 32,
     descriptor: "A light but dense musk, waxy with a faint edge of metal.",
-    role: "The cold steel of the strings, a metallic hum that hangs over the water."
+    role: "A clean musk that carries the blend, with a slightly metallic sheen. The strings."
   },
   {
     name: "Hedione",
@@ -62,7 +62,7 @@ const MATERIALS = [
     parts: 175, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 11, priceAdj: 11,
     descriptor: "The trace left on the air after you walk past jasmine.",
-    role: "Daylight on water. An airy radiance that lifts everything toward the pale sky."
+    role: "Transparency and lift through the heart. The light on the water."
   },
   {
     name: "Cedarwood EO",
@@ -70,7 +70,7 @@ const MATERIALS = [
     parts: 75, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 40, priceAdj: 40,
     descriptor: "Dry, oily, earthy cedar.",
-    role: "The dark timber of the soundboard, resonant under a low grey light."
+    role: "Dry woody depth. The timber of the soundboard."
   },
   {
     name: "Floralozone",
@@ -78,7 +78,7 @@ const MATERIALS = [
     parts: 75, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 22, priceAdj: 22,
     descriptor: "A cleaner cousin of Calone. Anisic and ozonic, with a hint of citrus.",
-    role: "The ozone of glacial wind, clean cold air moving off the ice wall."
+    role: "The ozonic, marine top note. Cold air off the ice."
   },
   {
     name: "Cypriol EO",
@@ -86,7 +86,7 @@ const MATERIALS = [
     parts: 25, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 400, priceAdj: 400,
     descriptor: "Rooty and dark, close to vetiver, with a worn leather edge.",
-    role: "The black depth below the surface. Smoke and root, the cold water under the floe."
+    role: "Smoky, rooty depth, close to vetiver. The dark water under the ice."
   },
   {
     name: "Evernyl",
@@ -94,7 +94,7 @@ const MATERIALS = [
     parts: 15, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 55, priceAdj: 55,
     descriptor: "A soft oakmoss, faintly old, damp and marine.",
-    role: "Mineral dampness. Wet stone and a salt-grey expanse that runs to the horizon."
+    role: "A clean oakmoss substitute for damp, mineral mossiness. The wet stone of the shore."
   },
   {
     name: "Ambroxan",
@@ -102,7 +102,7 @@ const MATERIALS = [
     parts: 15, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 500, priceAdj: 500,
     descriptor: "Grey amber. Musky, woody and long on the skin.",
-    role: "The wide saline warmth that holds the cold in place and lets the silence ring on."
+    role: "Mineral amber that fixes and extends the blend. The salt warmth under the cold."
   },
   {
     name: "Calone",
@@ -110,7 +110,7 @@ const MATERIALS = [
     parts: 40, dilution: 0.01, sheetDilution: 0.10,
     priceNeat: 125, priceAdj: 12.5,
     descriptor: "Marine and oceanic, cool like watermelon rind.",
-    role: "The sea itself, brine and spray coming off the broken ice."
+    role: "The marine note, used in trace. Brine and spray off the ice."
   },
   {
     name: "Aldehyde C12 MNA",
@@ -118,7 +118,7 @@ const MATERIALS = [
     parts: 40, dilution: 0.001, sheetDilution: 0.01,
     priceNeat: 18, priceAdj: 1.8,
     descriptor: "Kumquat peel turned metallic and soapy, over a woody spine.",
-    role: "A metallic glint. The flash of light on a steel string, on the wet edge of ice."
+    role: "A metallic, soapy aldehyde in trace. The glint on a string or wet ice."
   },
   {
     name: "Eucalyptol",
@@ -126,7 +126,7 @@ const MATERIALS = [
     parts: 30, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 25, priceAdj: 25,
     descriptor: "Camphor and cool wood, the feeling of a cleared airway.",
-    role: "The sharp intake of breath. The camphor cold that makes the whole scene shiver."
+    role: "A camphor lift, used sparingly. The cold intake of breath."
   },
   {
     name: "Rose Oxide",
@@ -134,7 +134,7 @@ const MATERIALS = [
     parts: 40, dilution: 0.001, sheetDilution: 0.01,
     priceNeat: 65, priceAdj: 6.5,
     descriptor: "Black and green pepper over a metallic rose.",
-    role: "A sparkle of pepper and metal, the prickle of frost, rose seen through cold steel."
+    role: "A peppery, metallic floral in trace. The bite of frost."
   }
 ];
 
