@@ -62,7 +62,7 @@ const MATERIALS = [
     parts: 175, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 11, priceAdj: 11,
     descriptor: "The trace left on the air after you walk past jasmine.",
-    role: "Transparency and lift through the heart. The light on the water."
+    role: "Transparency and lift through the heart. The cold, bright air."
   },
   {
     name: "Cedarwood EO",
@@ -86,7 +86,7 @@ const MATERIALS = [
     parts: 25, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 400, priceAdj: 400,
     descriptor: "Rooty and dark, close to vetiver, with a worn leather edge.",
-    role: "Smoky, rooty depth, close to vetiver. The dark water under the ice."
+    role: "Smoky, rooty depth, close to vetiver. The dark, waterlogged grain of the wood."
   },
   {
     name: "Evernyl",

@@ -26,13 +26,20 @@
     "Aromatic":        "radial-gradient(130% 90% at 30% 0%, rgba(110,165,175,.26), transparent 72%)"
   };
 
-  /* ---- scene layers: the picture, read top to bottom ---- */
+  /* ---- scene: four accords, each answering to a part of the picture ---- */
   const SCENE = [
-    { tier: "the air above",   title: "Glacial air",          names: ["Eucalyptol", "Floralozone", "Calone"] },
-    { tier: "the light",       title: "Light on water",       names: ["Hedione"] },
-    { tier: "the strings",     title: "Cold metal",           names: ["Habanolide", "Aldehyde C12 MNA", "Rose Oxide"] },
-    { tier: "the instrument",  title: "The wooden body",      names: ["ISO E Super", "Cedarwood EO", "Evernyl"] },
-    { tier: "beneath the ice", title: "The dark water",       names: ["Cypriol EO", "Ambroxan"] }
+    { tier: "the air",        title: "Glacial air",
+      note: "Cold, ozonic air with a high, transparent lift. The first breath of the scene.",
+      names: ["Eucalyptol", "Floralozone", "Hedione"] },
+    { tier: "the sea",        title: "The water",
+      note: "Mineral amber and a marine coolness. The sea moving around the platform.",
+      names: ["Ambroxan", "Calone"] },
+    { tier: "the instrument", title: "The dark wooden body",
+      note: "Dry cedar and resonant wood, turned damp and waterlogged by the humidity off the sea.",
+      names: ["ISO E Super", "Cedarwood EO", "Cypriol EO", "Evernyl"] },
+    { tier: "the strings",    title: "The cold metal",
+      note: "A metallic, musky sheen. The strings and the frozen wire.",
+      names: ["Habanolide", "Aldehyde C12 MNA", "Rose Oxide"] }
   ];
 
   const dilLabel = m => m.dilution >= 0.1 ? "10%" : m.dilution === 0.01 ? "1%" : "0.1%";
@@ -43,13 +50,12 @@
     const ul = $("#sceneLayers"); if (!ul) return;
     ul.innerHTML = SCENE.map((layer, i) => {
       const body = layer.names.map(byName).filter(Boolean);
-      const lead = body[0];
       const mats = body.map(m => m.name).join(" · ");
       return `<li class="scene-layer${i === 0 ? " active" : ""}">
         <span class="layer-tier">${layer.tier}</span>
         <div class="layer-body">
           <h3>${layer.title}</h3>
-          <p>${lead ? lead.role : ""}</p>
+          <p>${layer.note || ""}</p>
           <p class="layer-mats">${mats}</p>
         </div>
       </li>`;
