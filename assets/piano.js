@@ -51,7 +51,9 @@
 
   // warm light that lives inside the case, read as the soundboard glow
   const warm = new THREE.PointLight(0xffae5e, 0.0, 8, 2);
-  // added to the piano group below, so it travels with the case
+  // cold light inside the case, read as glacial air filling the body
+  const coldGlow = new THREE.PointLight(0x9fc6e4, 0.0, 7.5, 2);
+  // both added to the piano group below, so they travel with the case
 
   /* ---------- materials ---------- */
   // lacquered piano black: clearcoat gives the wet, reflective sheen
@@ -69,9 +71,11 @@
   const piano = new THREE.Group();
   scene.add(piano);
 
-  // interior glow lives with the case (front edge at z=0, tail at z=-L)
+  // interior glows live with the case (front edge at z=0, tail at z=-L)
   warm.position.set(-0.1, 1.2, -1.7);
   piano.add(warm);
+  coldGlow.position.set(-0.1, 1.05, -2.2);
+  piano.add(coldGlow);
 
   const W = 2.2;        // width (left-right)
   const L = 3.5;        // length (front-back)
@@ -98,7 +102,8 @@
 
   // body: black walls, warm soundboard as the top cap (revealed by the lid).
   // ExtrudeGeometry group 0 = the flat faces (top/bottom), group 1 = the walls.
-  const body = new THREE.Mesh(wingGeo(CASE, true), [wood, black]);
+  // (no bevel on the body: a beveled cap rises above and hides the strings)
+  const body = new THREE.Mesh(wingGeo(CASE), [wood, black]);
   body.position.y = baseY;
   body.castShadow = true; body.receiveShadow = true;
   piano.add(body);
@@ -167,29 +172,31 @@
     bl.position.set(x, baseY * 0.31, z); bl.castShadow = true; piano.add(bl);
   });
 
-  // ice platform (the patch the piano stands on)
-  const platform = new THREE.Mesh(new THREE.BoxGeometry(W * 2.3, 0.2, L * 1.5), ice);
-  platform.position.set(0, -0.1, 0);
+  // ice platform (the patch the piano stands on) — sized and centred so the
+  // whole instrument, tail included, sits on the ice rather than over water
+  const platform = new THREE.Mesh(new THREE.BoxGeometry(W * 2.7, 0.2, L * 1.95), ice);
+  platform.position.set(0, -0.1, -L * 0.62);
   platform.receiveShadow = true;
   scene.add(platform);
 
   // the sea, all around and below the patch of ice
-  const sea = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), water);
+  const sea = new THREE.Mesh(new THREE.PlaneGeometry(180, 180), water);
   sea.rotation.x = -Math.PI / 2;
-  sea.position.y = -0.06;
+  sea.position.y = -0.04;
   sea.receiveShadow = true;
   scene.add(sea);
 
   // broken ice floes drifting on the water, frozen and not
   const floes = new THREE.Group();
   const seeded = (n) => { let x = Math.sin(n * 127.1) * 43758.5453; return x - Math.floor(x); }; // stable per-index
-  for (let i = 0; i < 30; i++) {
+  const floeCx = 0, floeCz = -L * 0.62;   // ring the floes around the ice patch
+  for (let i = 0; i < 34; i++) {
     const ang = seeded(i + 1) * Math.PI * 2;
-    const rad = 3.2 + seeded(i + 7) * 12;
+    const rad = 3.4 + seeded(i + 7) * 12;
     const sx = 0.35 + seeded(i + 3) * 1.7;
     const sz = sx * (0.5 + seeded(i + 5) * 0.9);
     const f = new THREE.Mesh(new THREE.BoxGeometry(sx, 0.05 + seeded(i + 9) * 0.08, sz), floe);
-    f.position.set(Math.cos(ang) * rad, 0.015, Math.sin(ang) * rad - 0.4);
+    f.position.set(floeCx + Math.cos(ang) * rad, 0.02, floeCz + Math.sin(ang) * rad);
     f.rotation.y = seeded(i + 11) * Math.PI;
     f.castShadow = true; f.receiveShadow = true;
     floes.add(f);
@@ -212,8 +219,8 @@
   // in world space, the soundboard strings are deeper, near z=-3).
   const stops = [
     { r: 7.2, theta:  0.52, phi: 1.02, ty: 1.15, tz:  0.0, lid: 0.00 },
-    { r: 9.3, theta:  0.18, phi: 0.97, ty: 1.30, tz: -1.6, lid: 0.20 },
-    { r: 7.4, theta: -0.34, phi: 1.31, ty: 0.42, tz: -2.0, lid: 0.55 },
+    { r: 9.0, theta:  0.18, phi: 0.97, ty: 1.30, tz: -1.7, lid: 0.55 },
+    { r: 6.5, theta: -0.34, phi: 1.36, ty: 0.30, tz: -2.2, lid: 0.70 },
     { r: 4.8, theta: -0.58, phi: 1.00, ty: 1.10, tz: -2.6, lid: 0.95 },
     { r: 3.3, theta: -0.20, phi: 0.66, ty: 1.45, tz: -3.0, lid: 1.22 }
   ];
@@ -290,9 +297,12 @@
     );
     camera.lookAt(target);
 
-    // lid opening + interior glow (rises as the lid lifts toward the metal)
+    // lid opening + interior glows:
+    //   cold air fills the body around the glacial-air accord (phase ~1),
+    //   warm light builds on the strings as we zoom to the metal (phase ~4)
     lidPivot.rotation.z = f.lid;
-    warm.intensity = clamp01((f.lid - 0.25) / 0.75) * 1.7;
+    coldGlow.intensity = Math.max(0, 1 - Math.abs(phase - 1) / 1.25) * 1.4;
+    warm.intensity = clamp01((phase - 2) / 2) * clamp01((f.lid - 0.25) / 0.75) * 1.8;
   }
 
   /* ---------- sizing ---------- */
