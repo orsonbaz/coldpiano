@@ -31,18 +31,21 @@
     { tier: "the air above",   title: "Glacial air",          names: ["Eucalyptol", "Floralozone", "Calone"] },
     { tier: "the light",       title: "Light on water",       names: ["Hedione"] },
     { tier: "the strings",     title: "Cold metal",           names: ["Habanolide", "Aldehyde C12 MNA", "Rose Oxide"] },
-    { tier: "the instrument",  title: "The wooden body",      names: ["ISO E Super", "Cedarwood EO"] },
-    { tier: "beneath the ice", title: "The dark water",       names: ["Cypriol EO", "Evernyl", "Ambroxan"] }
+    { tier: "the instrument",  title: "The wooden body",      names: ["ISO E Super", "Cedarwood EO", "Evernyl"] },
+    { tier: "beneath the ice", title: "The dark water",       names: ["Cypriol EO", "Ambroxan"] }
   ];
 
-  /* ========== 02 — SCENE ========== */
+  const dilLabel = m => m.dilution >= 0.1 ? "10%" : m.dilution === 0.01 ? "1%" : "0.1%";
+  const indexOf = name => DERIVED.rows.findIndex(r => r.name === name);
+
+  /* ========== 02 — SCENE (highlighted one layer at a time) ========== */
   function buildScene() {
     const ul = $("#sceneLayers"); if (!ul) return;
-    ul.innerHTML = SCENE.map(layer => {
+    ul.innerHTML = SCENE.map((layer, i) => {
       const body = layer.names.map(byName).filter(Boolean);
       const lead = body[0];
       const mats = body.map(m => m.name).join(" · ");
-      return `<li class="reveal">
+      return `<li class="scene-layer${i === 0 ? " active" : ""}">
         <span class="layer-tier">${layer.tier}</span>
         <div class="layer-body">
           <h3>${layer.title}</h3>
@@ -51,34 +54,53 @@
         </div>
       </li>`;
     }).join("");
+
+    // light each layer as it crosses the middle of the viewport
+    const items = $$("#sceneLayers .scene-layer");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          items.forEach(li => li.classList.remove("active"));
+          e.target.classList.add("active");
+        }
+      });
+    }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
+    items.forEach(li => io.observe(li));
   }
 
-  /* ========== 03 — GALLERY ========== */
+  /* ========== 03 — MATERIALS (grouped by scene) ========== */
   function buildGallery() {
     const wrap = $("#gallery"); if (!wrap) return;
-    wrap.innerHTML = DERIVED.rows.map((m, i) => {
-      const wash = WASH[m.family] || WASH["Musk"];
-      const no = String(i + 1).padStart(2, "0");
-      const dil = m.dilution >= 0.1 ? "10%" : m.dilution === 0.01 ? "1%" : "0.1%";
-      return `<article class="plate reveal" style="--wash:${wash}; --d:${(i % 4) * 70}ms">
-        <span class="plate-no">n° ${no}</span>
-        <h3 class="plate-name">${m.name}</h3>
-        <span class="plate-fam">${m.family} · ${m.group}</span>
-        <p class="plate-role">${m.role}</p>
-        <p class="plate-desc">${m.descriptor}</p>
-        <div class="plate-foot">
-          <span><b>${m.parts}</b> /1000</span>
-          <span><b>${dil}</b> dil.</span>
-          <span><b>${pct(m.pctBlend, 1)}%</b></span>
+    wrap.innerHTML = SCENE.map(group => {
+      const plates = group.names.map(byName).filter(Boolean).map(m => {
+        const wash = WASH[m.family] || WASH["Musk"];
+        const no = String(indexOf(m.name) + 1).padStart(2, "0");
+        return `<article class="plate" style="--wash:${wash}">
+          <span class="plate-no">n° ${no}</span>
+          <h3 class="plate-name">${m.name}</h3>
+          <span class="plate-fam">${m.family} · ${m.group}</span>
+          <p class="plate-role">${m.role}</p>
+          <p class="plate-desc">${m.descriptor}</p>
+          <div class="plate-foot">
+            <span><b>${m.parts}</b> /1000</span>
+            <span><b>${dilLabel(m)}</b> dil.</span>
+            <span><b>${pct(m.pctBlend, 1)}%</b></span>
+          </div>
+        </article>`;
+      }).join("");
+      return `<div class="mat-group reveal">
+        <div class="mat-group-head">
+          <span class="layer-tier">${group.tier}</span>
+          <h3>${group.title}</h3>
         </div>
-      </article>`;
+        <div class="mat-grid">${plates}</div>
+      </div>`;
     }).join("");
   }
 
   /* ========== 04 — FORMULA TABLE ========== */
   function buildFormula() {
     const t = $("#formulaTable"); if (!t) return;
-    const dilLabel = m => m.dilution >= 0.1 ? "10%" : m.dilution === 0.01 ? "1%" : "0.1%";
 
     const head = `<thead><tr>
       <th>material</th><th class="num">dilution</th><th class="num">parts</th>
@@ -110,48 +132,9 @@
     </tr></tfoot>`;
 
     t.innerHTML = head + body + foot;
-
-    $("#activeConc").textContent = pct(DERIVED.activeConcentratePct, 0) + "%";
-    $("#activeEdt").textContent  = pct(DERIVED.activeEdtPct, 1) + "%";
   }
 
-  /* ========== 05 — COST ========== */
-  function buildCost() {
-    $("#costBig").textContent = eur(DERIVED.totalCost);
-    const margin = ((BRIEF.budgetEurKg - DERIVED.totalCost) / BRIEF.budgetEurKg) * 100;
-    $("#costMargin").textContent = pct(margin, 0) + "%";
-
-    // top two materials' share
-    const ranked = [...DERIVED.rows].sort((a, b) => b.costInFormula - a.costInFormula);
-    const topShare = (ranked[0].costInFormula + ranked[1].costInFormula) / DERIVED.totalCost * 100;
-    $("#costTopShare").textContent = pct(topShare, 0) + "%";
-
-    const max = ranked[0].costInFormula;
-    $("#costRank").innerHTML = ranked.map(m => `
-      <li>
-        <span class="cr-name">${m.name}</span>
-        <span class="cr-val">${eur(m.costInFormula)} €/kg</span>
-        <span class="cr-track"><i data-w="${(m.costInFormula / max) * 100}"></i></span>
-      </li>`).join("");
-
-    // bar fill (cost vs 60 budget) — animate when visible
-    const fill = $("#costBarFill");
-    const cap  = $("#costBarCap");
-    cap.style.left = "100%";
-    const target = Math.min(DERIVED.totalCost / BRIEF.budgetEurKg * 100, 100);
-    const io = new IntersectionObserver((es) => {
-      es.forEach(e => {
-        if (e.isIntersecting) {
-          fill.style.width = target + "%";
-          $$("#costRank .cr-track i").forEach(i => i.style.width = i.dataset.w + "%");
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
-    io.observe($("#cost"));
-  }
-
-  /* ========== 06 — IFRA TABLE ========== */
+  /* ========== 05 — IFRA TABLE ========== */
   function buildIFRA() {
     const t = $("#ifraTable"); if (!t) return;
     const head = `<thead><tr>
@@ -186,23 +169,6 @@
     const pn = $("#peakName"), pe = $("#peakEdt");
     if (pn) pn.textContent = peak.name;
     if (pe) pe.textContent = pct(peak.edtPct, 2) + "%";
-  }
-
-  /* ========== 07 — SPEC ========== */
-  function buildSpec() {
-    const ul = $("#specList"); if (!ul) return;
-    const margin = ((BRIEF.budgetEurKg - DERIVED.totalCost) / BRIEF.budgetEurKg) * 100;
-    const peak = DERIVED.rows.reduce((a, b) => b.edtPct > a.edtPct ? b : a);
-    const items = [
-      { label: "Maximum 12 raw materials", val: `${MATERIALS.length} / 12`, flag: "met" },
-      { label: "Budget 60 €/kg",           val: `${eur(DERIVED.totalCost)} €/kg · ${pct(margin,0)}% under`, flag: "met" },
-      { label: "IFRA Category 4 (10% EDT)", val: `max ${pct(peak.edtPct,2)}% in product · all unrestricted`, flag: "compliant" }
-    ];
-    ul.innerHTML = items.map(it => `<li>
-      <span class="sp-label">${it.label}</span>
-      <span class="sp-val">${it.val}</span>
-      <span class="sp-flag">✓ ${it.flag}</span>
-    </li>`).join("");
   }
 
   /* ========== reveal on scroll ========== */
@@ -310,9 +276,7 @@
     buildScene();
     buildGallery();
     buildFormula();
-    buildCost();
     buildIFRA();
-    buildSpec();
     initReveal();
     initNav();
     initCanvas();

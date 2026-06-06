@@ -93,8 +93,8 @@ const MATERIALS = [
     group: "Ester", family: "Mossy / Woody",
     parts: 15, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 55, priceAdj: 55,
-    descriptor: "A soft oakmoss, faintly old, damp and marine.",
-    role: "A clean oakmoss substitute for damp, mineral mossiness. The wet stone of the shore."
+    descriptor: "Soft oakmoss, faintly old and damp.",
+    role: "Damp wood. The humidity off the sea soaking into the case."
   },
   {
     name: "Ambroxan",

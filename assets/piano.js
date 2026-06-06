@@ -35,7 +35,7 @@
   const hemi = new THREE.HemisphereLight(0xaecfe0, 0x0a0f12, 0.55);
   scene.add(hemi);
 
-  const key = new THREE.DirectionalLight(0xdfeeff, 1.25); // cold key light
+  const key = new THREE.DirectionalLight(0xdfeeff, 0.92); // cold key light
   key.position.set(-5, 8, 4);
   key.castShadow = true;
   key.shadow.mapSize.set(1024, 1024);
@@ -59,7 +59,7 @@
   const wood = new THREE.MeshStandardMaterial({ color: 0x5a3a1f, metalness: 0.25, roughness: 0.55, emissive: 0x2a1606, emissiveIntensity: 0.45 });
   const ivory = new THREE.MeshStandardMaterial({ color: 0xeef1f0, metalness: 0.05, roughness: 0.6 });
   const ebony = new THREE.MeshStandardMaterial({ color: 0x111417, metalness: 0.2, roughness: 0.5 });
-  const ice = new THREE.MeshStandardMaterial({ color: 0xc7d4db, metalness: 0.0, roughness: 0.92 });
+  const ice = new THREE.MeshStandardMaterial({ color: 0x6f7d86, metalness: 0.0, roughness: 0.96 });
   const brass = new THREE.MeshStandardMaterial({ color: 0xb98a4e, metalness: 0.7, roughness: 0.35 });
 
   /* ---------- the grand piano ---------- */
@@ -193,7 +193,7 @@
 
   let progress = 0, stageOpacity = 0;
   function readScroll() {
-    const palette = document.getElementById("palette");
+    const palette = document.getElementById("materials");
     const end = palette ? palette.offsetTop : window.innerHeight * 3;
     progress = clamp01(window.scrollY / Math.max(end, 1));
     // full and vivid on the cover, recedes to a quiet backdrop while the
