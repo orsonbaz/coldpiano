@@ -161,8 +161,10 @@ const DERIVED = (() => {
   const rows = MATERIALS.map(m => {
     const pctBlend = (m.parts / totalParts) * 100;          // % of compounded blend
     const costInFormula = (m.parts * m.priceAdj) / 1000;     // €/kg of concentrate
-    const concActivePct = (m.parts * m.dilution / totalParts) * 100; // neat % in concentrate
-    const edtPct = concActivePct * BRIEF.edtDosage;          // neat % in 10% EDT
+    // IFRA convention: read the standard 10% working dilution as full strength
+    // (10% -> 100%, 1% -> 10%, 0.1% -> 1%), then dose at 10% for the finished EDT.
+    const concActivePct = (m.parts / totalParts) * (m.dilution / 0.10) * 100; // % in concentrate
+    const edtPct = concActivePct * BRIEF.edtDosage;          // % in 10% EDT
     const adjusted = m.dilution < m.sheetDilution;
     totalCost += costInFormula;
     activeFraction += concActivePct;

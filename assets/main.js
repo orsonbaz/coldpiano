@@ -158,10 +158,11 @@
         const ceil = IFRA.ceilings[m.name];
         const limit = ceil ? ceil.label : "no restriction";
         const pillClass = "pill clear";
+        const fmt = (v) => v >= 1 ? pct(v, v >= 10 ? 1 : 2) : pct(v, v < 0.01 ? 4 : 3);
         return `<tr>
           <td class="mat">${m.name}</td>
-          <td class="num ok">${pct(m.concActivePct, m.concActivePct < 0.1 ? 3 : 2)}%</td>
-          <td class="num ok">${pct(m.edtPct, m.edtPct < 0.01 ? 4 : 3)}%</td>
+          <td class="num ok">${fmt(m.concActivePct)}%</td>
+          <td class="num ok">${fmt(m.edtPct)}%</td>
           <td class="num">${ceil ? "ceiling" : "none"}</td>
           <td><span class="${pillClass}">${ceil ? "within ceiling" : "unrestricted"}</span><br>
               <small style="color:var(--steel);font-size:11px;letter-spacing:.03em">${limit}</small></td>
