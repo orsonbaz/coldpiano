@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cold Piano — an olfactive elegy for the Arctic</title>
+<title>Cold Piano · an olfactive elegy for the Arctic</title>
 <meta name="description" content="Cold Piano: a fragrance composition translating Ludovico Einaudi's piano on the Arctic ice into scent. Full formula, costs and IFRA Category 4 calculation." />
 <meta name="color-scheme" content="dark" />
 
 <!-- Open Graph -->
-<meta property="og:title" content="Cold Piano — an olfactive elegy for the Arctic" />
+<meta property="og:title" content="Cold Piano · an olfactive elegy for the Arctic" />
 <meta property="og:description" content="A fragrance that smells the way a black grand piano looks alone on the Arctic ice." />
 <meta property="og:type" content="website" />
 
@@ -18,6 +18,9 @@
 <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
+
+<!-- scroll-driven 3D grand piano -->
+<canvas id="pianoStage" aria-hidden="true"></canvas>
 
 <!-- frosted grain overlay -->
 <div class="grain" aria-hidden="true"></div>
@@ -54,7 +57,7 @@
       <p class="kicker reveal">eau de toilette · composition n° 1</p>
       <h1 class="reveal">cold piano</h1>
       <p class="cover-sub reveal">an olfactive elegy for the arctic</p>
-      <p class="cover-note reveal">A black grand piano, alone on a sheet of ice, before a wall of glacier.<br />This is what it smells like.</p>
+      <p class="cover-note reveal">A black grand piano alone on a sheet of ice, a wall of glacier behind it.<br />This is what it smells like.</p>
     </div>
     <a class="scroll-cue reveal" href="#origin" aria-label="Scroll">
       <span></span>
@@ -63,14 +66,14 @@
 
   <!-- 01 — ORIGIN -->
   <section id="origin" class="band">
-    <div class="band-index">01 — origin</div>
+    <div class="band-index">01 · origin</div>
     <div class="prose">
-      <p class="lede reveal">In 2016 Ludovico Einaudi played a grand piano on a floating platform in the Arctic Ocean, a glacier calving behind him, the sea around him strewn with broken ice.</p>
-      <p class="reveal">Cold Piano is a translation of that image into scent — not the music, but the <em>cold around the instrument</em>: the wooden body breathing into freezing air, the metal of the strings, the ozone of glacial wind, and far below, the black mineral depth of the water.</p>
-      <p class="reveal">It is built from twelve raw materials, kept under sixty euros a kilo, and calculated to comply with IFRA Category&nbsp;4 at ten percent in alcohol. Everything that follows is the working of it — shown in full.</p>
+      <p class="lede reveal">In 2016 Ludovico Einaudi played a grand piano on a floating platform in the Arctic Ocean, a glacier calving behind him, the sea around him scattered with broken ice.</p>
+      <p class="reveal">Cold Piano puts that image into scent. Not the music, but the <em>cold around the instrument</em>. The wooden body breathing into freezing air, the metal of the strings, the ozone of glacial wind, and far below it, the black mineral depth of the water.</p>
+      <p class="reveal">It uses twelve raw materials, stays under sixty euros a kilo, and meets IFRA Category&nbsp;4 at ten percent in alcohol. Everything that follows is the working of it, shown in full.</p>
       <p class="ref reveal">
         <a href="https://www.youtube.com/watch?v=2DLnhdnSUVs" target="_blank" rel="noopener">
-          ↗ Ludovico Einaudi — “Elegy for the Arctic” (Greenpeace)
+          ↗ Ludovico Einaudi, “Elegy for the Arctic” (Greenpeace)
         </a>
       </p>
     </div>
@@ -78,11 +81,11 @@
 
   <!-- 02 — THE SCENE -->
   <section id="scene" class="band band--dark">
-    <div class="band-index">02 — the scene</div>
+    <div class="band-index">02 · the scene</div>
     <div class="scene-grid">
       <div class="scene-text reveal">
         <h2>Reading the cold</h2>
-        <p>The composition maps onto the picture. Each accord is a part of the scene — read from the air above the ice down to the water beneath it.</p>
+        <p>The composition maps onto the picture. Each accord belongs to a part of the scene, read from the air above the ice down to the water beneath it.</p>
       </div>
       <ul class="scene-layers" id="sceneLayers"><!-- built by JS --></ul>
     </div>
@@ -90,7 +93,7 @@
 
   <!-- 03 — THE PALETTE -->
   <section id="palette" class="band">
-    <div class="band-index">03 — the palette</div>
+    <div class="band-index">03 · the palette</div>
     <div class="palette-head reveal">
       <h2>Twelve materials</h2>
       <p>The full palette. Hover or tap a plate for its role in the scene, its character, and its place in the formula.</p>
@@ -100,10 +103,10 @@
 
   <!-- 04 — THE FORMULA -->
   <section id="formula" class="band band--dark">
-    <div class="band-index">04 — the formula</div>
+    <div class="band-index">04 · the formula</div>
     <div class="palette-head reveal">
       <h2>The formula</h2>
-      <p>Parts per thousand of the compounded blend, with working dilutions. Prices are taken from the raw-material sheet, adjusted where Cold Piano uses a material more dilute than the sheet’s reference (marked <span class="adj-mark">adj</span>).</p>
+      <p>Parts per thousand of the compounded blend, with the working dilution of each material. Prices come from the raw-material sheet, adjusted where Cold Piano uses a material more dilute than the sheet’s reference (marked <span class="adj-mark">adj</span>).</p>
     </div>
     <div class="table-wrap reveal">
       <table class="ftable" id="formulaTable"><!-- built by JS --></table>
@@ -113,7 +116,7 @@
 
   <!-- 05 — THE COST -->
   <section id="cost" class="band">
-    <div class="band-index">05 — the cost</div>
+    <div class="band-index">05 · the cost</div>
     <div class="cost-grid">
       <div class="cost-figure reveal">
         <p class="cost-label">cost of the concentrate</p>
@@ -123,7 +126,7 @@
       </div>
       <div class="cost-detail reveal">
         <p>Cost is driven almost entirely by two materials used at 10%: <strong>Cypriol</strong> (the dark, smoky root, at €400/kg) and <strong>Ambroxan</strong> (the grey-amber base, at €500/kg). Together they make up <span id="costTopShare"></span> of the cost.</p>
-        <p>The trace metallics — Aldehyde C12 MNA and Rose Oxide — are diluted to 0.1%, a tenth of the sheet’s reference, so their cost is scaled to a tenth and they contribute almost nothing.</p>
+        <p>The trace metallics, Aldehyde C12 MNA and Rose Oxide, are diluted to 0.1%, a tenth of the sheet’s reference. Their price scales down with them, so they add almost nothing to the total.</p>
         <ul class="cost-rank" id="costRank"><!-- built by JS --></ul>
       </div>
     </div>
@@ -131,7 +134,7 @@
 
   <!-- 06 — IFRA -->
   <section id="ifra" class="band band--dark">
-    <div class="band-index">06 — compliance</div>
+    <div class="band-index">06 · compliance</div>
     <div class="palette-head reveal">
       <h2>IFRA Category 4</h2>
       <p>Calculated for a fine fragrance dosed at 10% in alcohol, against the IFRA 51st Amendment. Concentration in the finished product = (parts × dilution ÷ 1000) × 10%.</p>
@@ -141,20 +144,20 @@
     </div>
     <div class="verdict reveal">
       <p class="verdict-tag">compliant</p>
-      <p>No material in this formula carries a binding IFRA Category&nbsp;4 quantitative limit. The most concentrated material in the finished eau de toilette is <strong id="peakName"></strong> at <strong id="peakEdt"></strong> — comfortably unrestricted. The only two materials with any published usage ceiling, <strong>Eucalyptol</strong> (0.30% of concentrate vs. ≈20%) and <strong>Aldehyde&nbsp;C12&nbsp;MNA</strong> (0.004% vs. ≈2%), sit far beneath theirs. Verify against the current <a href="https://ifrafragrance.org/standards-library" target="_blank" rel="noopener">IFRA Standards Library</a> before any commercial launch.</p>
+      <p>No material in this formula carries a binding IFRA Category&nbsp;4 quantitative limit. The most concentrated material in the finished eau de toilette is <strong id="peakName"></strong> at <strong id="peakEdt"></strong>, which is unrestricted. The two materials that do have a published usage ceiling sit well beneath theirs: Eucalyptol at 0.30% of the concentrate against a ceiling near 20%, and Aldehyde&nbsp;C12&nbsp;MNA at 0.004% against near 2%. Confirm the figures against the current <a href="https://ifrafragrance.org/standards-library" target="_blank" rel="noopener">IFRA Standards Library</a> before any commercial launch.</p>
     </div>
   </section>
 
   <!-- 07 — COLOPHON -->
   <section id="colophon" class="band">
-    <div class="band-index">07 — colophon</div>
+    <div class="band-index">07 · colophon</div>
     <div class="spec reveal">
       <h2>The brief, answered</h2>
       <ul class="spec-list" id="specList"><!-- built by JS --></ul>
     </div>
     <footer class="footer reveal">
-      <p>Cold Piano — composition &amp; concept by the perfumer.<br />
-      Visual interpretation built for the work; the reference performance is
+      <p>Cold Piano. Composition and concept by the perfumer.<br />
+      The visuals here are original, built for the work. The reference performance is
       <a href="https://www.youtube.com/watch?v=2DLnhdnSUVs" target="_blank" rel="noopener">Ludovico Einaudi’s “Elegy for the Arctic”</a> for Greenpeace.</p>
       <p class="footer-mark">cold&nbsp;piano · mmxxvi</p>
     </footer>
@@ -164,5 +167,7 @@
 
 <script src="assets/data.js"></script>
 <script src="assets/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="assets/piano.js"></script>
 </body>
 </html>

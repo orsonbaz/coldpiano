@@ -24,7 +24,7 @@ const BRIEF = {
   ifraCategory: 4,
   edtDosage: 0.10,
   reference: {
-    title: 'Ludovico Einaudi — “Elegy for the Arctic”',
+    title: 'Ludovico Einaudi, “Elegy for the Arctic”',
     detail: "Live for Greenpeace, performed on a floating platform before the Wahlenbergbreen glacier, Svalbard.",
     url: "https://www.youtube.com/watch?v=2DLnhdnSUVs"
   }
@@ -45,96 +45,96 @@ const MATERIALS = [
     group: "Ketone", family: "Woody",
     parts: 250, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 10, priceAdj: 10,
-    descriptor: "Fresh, clean, woody — a transparent cedar-violet haze.",
-    role: "The grain of the instrument’s body — the warm wooden breath the piano exhales into freezing air."
+    descriptor: "Fresh, clean and woody. A transparent haze of cedar and violet.",
+    role: "The grain of the wooden body. It carries the warm breath the instrument gives off into freezing air."
   },
   {
     name: "Habanolide",
     group: "Ester", family: "Musk",
     parts: 220, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 32, priceAdj: 32,
-    descriptor: "Light yet dense musk; waxy, faintly metallic.",
-    role: "The cold steel of the strings — a metallic, waxy hum suspended over the water."
+    descriptor: "A light but dense musk, waxy with a faint edge of metal.",
+    role: "The cold steel of the strings, a metallic hum that hangs over the water."
   },
   {
     name: "Hedione",
     group: "Ester", family: "Floral",
     parts: 175, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 11, priceAdj: 11,
-    descriptor: "What lingers on your nose after you pass a jasmine patch.",
-    role: "Daylight on water — a luminous, airy radiance that lifts the whole structure toward the pale sky."
+    descriptor: "The trace left on the air after you walk past jasmine.",
+    role: "Daylight on water. An airy radiance that lifts everything toward the pale sky."
   },
   {
     name: "Cedarwood EO",
     group: "Essential oil", family: "Woody",
     parts: 75, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 40, priceAdj: 40,
-    descriptor: "Masculine, oily, earthy cedar.",
-    role: "The dark resonant timber of the soundboard — dry wood under a low grey light."
+    descriptor: "Dry, oily, earthy cedar.",
+    role: "The dark timber of the soundboard, resonant under a low grey light."
   },
   {
     name: "Floralozone",
     group: "Aldehyde", family: "Marine",
     parts: 75, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 22, priceAdj: 22,
-    descriptor: "A cleaner Calone — anisic, ozonic, slightly citrus.",
-    role: "The ozone of glacial wind — clean, cold air rolling off the ice wall."
+    descriptor: "A cleaner cousin of Calone. Anisic and ozonic, with a hint of citrus.",
+    role: "The ozone of glacial wind, clean cold air moving off the ice wall."
   },
   {
     name: "Cypriol EO",
     group: "Essential oil", family: "Woody / Earthy",
     parts: 25, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 400, priceAdj: 400,
-    descriptor: "Vetiver-like, rooty, leathery, dark.",
-    role: "The black depth beneath the surface — smoky and rooted, the cold water under the floe."
+    descriptor: "Rooty and dark, close to vetiver, with a worn leather edge.",
+    role: "The black depth below the surface. Smoke and root, the cold water under the floe."
   },
   {
     name: "Evernyl",
     group: "Ester", family: "Mossy / Woody",
     parts: 15, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 55, priceAdj: 55,
-    descriptor: "Soft oakmoss; slightly old, damp, marine.",
-    role: "Mineral dampness — wet stone and a salt-grey expanse stretching to the horizon."
+    descriptor: "A soft oakmoss, faintly old, damp and marine.",
+    role: "Mineral dampness. Wet stone and a salt-grey expanse that runs to the horizon."
   },
   {
     name: "Ambroxan",
     group: "Ether", family: "Amber",
     parts: 15, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 500, priceAdj: 500,
-    descriptor: "Grey amber; musky, woody, sustaining.",
-    role: "The vast saline warmth that anchors the cold and lets the silence ring on."
+    descriptor: "Grey amber. Musky, woody and long on the skin.",
+    role: "The wide saline warmth that holds the cold in place and lets the silence ring on."
   },
   {
     name: "Calone",
     group: "Ketone", family: "Marine",
     parts: 40, dilution: 0.01, sheetDilution: 0.10,
     priceNeat: 125, priceAdj: 12.5,
-    descriptor: "Marine, watermelon-cool, oceanic.",
-    role: "The sea itself — brine and spray off broken ice."
+    descriptor: "Marine and oceanic, cool like watermelon rind.",
+    role: "The sea itself, brine and spray coming off the broken ice."
   },
   {
     name: "Aldehyde C12 MNA",
     group: "Aldehyde", family: "Aldehydic",
     parts: 40, dilution: 0.001, sheetDilution: 0.01,
     priceNeat: 18, priceAdj: 1.8,
-    descriptor: "Kumquat peel; metallic, soapy, with a woody spine.",
-    role: "A metallic glint — the cold flash of light caught on a steel string, on a wet edge of ice."
+    descriptor: "Kumquat peel turned metallic and soapy, over a woody spine.",
+    role: "A metallic glint. The flash of light on a steel string, on the wet edge of ice."
   },
   {
     name: "Eucalyptol",
     group: "Ester", family: "Aromatic",
     parts: 30, dilution: 0.10, sheetDilution: 0.10,
     priceNeat: 25, priceAdj: 25,
-    descriptor: "Camphoraceous, woody — the sensation of opening the airways.",
-    role: "The icy intake of breath — the camphor-cold that makes the whole scene shiver."
+    descriptor: "Camphor and cool wood, the feeling of a cleared airway.",
+    role: "The sharp intake of breath. The camphor cold that makes the whole scene shiver."
   },
   {
     name: "Rose Oxide",
     group: "Ether", family: "Floral",
     parts: 40, dilution: 0.001, sheetDilution: 0.01,
     priceNeat: 65, priceAdj: 6.5,
-    descriptor: "Black pepper, green pepper, metallic rose.",
-    role: "A pepper-metal sparkle — the sharp prickle of frost, rose seen through cold steel."
+    descriptor: "Black and green pepper over a metallic rose.",
+    role: "A sparkle of pepper and metal, the prickle of frost, rose seen through cold steel."
   }
 ];
 

@@ -173,7 +173,7 @@
           <td class="mat">${m.name}</td>
           <td class="num ok">${pct(m.concActivePct, m.concActivePct < 0.1 ? 3 : 2)}%</td>
           <td class="num ok">${pct(m.edtPct, m.edtPct < 0.01 ? 4 : 3)}%</td>
-          <td class="num">${ceil ? "ceiling" : "—"}</td>
+          <td class="num">${ceil ? "ceiling" : "none"}</td>
           <td><span class="${pillClass}">${ceil ? "within ceiling" : "unrestricted"}</span><br>
               <small style="color:var(--steel);font-size:11px;letter-spacing:.03em">${limit}</small></td>
         </tr>`;
