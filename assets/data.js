@@ -146,9 +146,11 @@ const IFRA = {
   category: 4,
   amendment: "51st",
   note: "No material in this formula is subject to a binding IFRA Category 4 quantitative restriction. The two with published usage ceilings are well within them.",
+  // published industry usage ceilings, expressed on the CONCENTRATE
+  // (not finished-product Category 4 limits). Percentages of the concentrate.
   ceilings: {
-    "Eucalyptol": { ceilingConcentrate: 0.20, label: "≈20% in concentrate (industry usage rec.)" },
-    "Aldehyde C12 MNA": { ceilingConcentrate: 0.02, label: "≈2% in concentrate (industry usage rec.)" }
+    "Eucalyptol": { ceilingPct: 20, basis: "concentrate", label: "≈20% (conc.)" },
+    "Aldehyde C12 MNA": { ceilingPct: 2, basis: "concentrate", label: "≈2% (conc.)" }
   },
   library: "https://ifrafragrance.org/standards-library"
 };

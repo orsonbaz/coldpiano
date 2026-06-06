@@ -146,26 +146,26 @@
     const head = `<thead><tr>
       <th>material</th>
       <th class="num">in concentrate</th>
-      <th class="num">in 10% EDT</th>
-      <th class="num">IFRA Cat 4</th>
+      <th class="num">in product · 10% EDT</th>
+      <th class="num">ceiling</th>
       <th>status</th>
     </tr></thead>`;
 
+    const fmt = (v) => v >= 1 ? pct(v, v >= 10 ? 1 : 2) : pct(v, v < 0.01 ? 4 : 3);
     const body = "<tbody>" + DERIVED.rows
       .slice()
       .sort((a, b) => b.edtPct - a.edtPct)
       .map(m => {
         const ceil = IFRA.ceilings[m.name];
-        const limit = ceil ? ceil.label : "no restriction";
-        const pillClass = "pill clear";
-        const fmt = (v) => v >= 1 ? pct(v, v >= 10 ? 1 : 2) : pct(v, v < 0.01 ? 4 : 3);
+        // ceilings are on the concentrate, so compare the concentrate figure
+        const within = !ceil || m.concActivePct < ceil.ceilingPct;
+        const pill = within ? "pill clear" : "pill warn";
         return `<tr>
           <td class="mat">${m.name}</td>
           <td class="num ok">${fmt(m.concActivePct)}%</td>
           <td class="num ok">${fmt(m.edtPct)}%</td>
-          <td class="num">${ceil ? "ceiling" : "none"}</td>
-          <td><span class="${pillClass}">${ceil ? "within ceiling" : "unrestricted"}</span><br>
-              <small style="color:var(--steel);font-size:11px;letter-spacing:.03em">${limit}</small></td>
+          <td class="num">${ceil ? ceil.label : "—"}</td>
+          <td><span class="${pill}">${ceil ? "within ceiling" : "no limit"}</span></td>
         </tr>`;
       }).join("") + "</tbody>";
 

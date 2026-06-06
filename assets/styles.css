@@ -363,6 +363,7 @@ h2{
   border:1px solid var(--hair); color:var(--mist);
 }
 .pill.clear{ border-color:rgba(150,200,170,.4); color:#a9d6bc; }
+.pill.warn{ border-color:rgba(210,160,90,.5); color:var(--amber-soft); }
 
 .table-foot{ font-size:13px; color:var(--mist); margin-top:22px; max-width:70ch; }
 .table-foot span{ color:var(--ice); }
