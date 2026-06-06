@@ -29,10 +29,10 @@
   /* ---- scene: four accords, each answering to a part of the picture ---- */
   const SCENE = [
     { tier: "the air",        title: "Glacial air",
-      note: "Cold, ozonic air with a high, transparent lift. The first breath of the scene.",
+      note: "Cold, ozonic air with a high, transparent lift, filling the inside of the open piano.",
       names: ["Eucalyptol", "Floralozone", "Hedione"] },
     { tier: "the sea",        title: "The water",
-      note: "Mineral amber and a marine coolness. The sea moving around the platform.",
+      note: "A marine coolness over mineral amber. The salt water laps the platform and dampens the body.",
       names: ["Ambroxan", "Calone"] },
     { tier: "the instrument", title: "The dark wooden body",
       note: "Dry cedar and resonant wood, turned damp and waterlogged by the humidity off the sea.",
