@@ -172,47 +172,89 @@
   piano.position.set(0.1, 0, -L * 0.42);
   platform.position.z = 0;
 
-  /* ---------- scroll choreography ---------- */
-  // camera keyframes through cover -> origin -> scene, then fade.
+  /* ---------- scroll choreography ----------
+     Camera waypoints keyed by a "phase" 0..4 that tracks the scene:
+       0  hero (cover)
+       1  glacial air      — pulled back, the air all around
+       2  the water        — low, skimming the ice and the sea around it
+       3  the wooden body  — in close on the case
+       4  the cold metal   — zoomed into the open lid, onto the strings
+     The phase is driven by which scene accord is centred, so the 3D
+     move stays in step with the highlighted text. */
+  // tz aims the look-target along the piano (front of the case is near z=-1.5
+  // in world space, the soundboard strings are deeper, near z=-3).
   const stops = [
-    { p: 0.00, r: 7.2, theta: 0.52, phi: 1.02, ty: 1.15, lid: 0.00 },
-    { p: 0.50, r: 7.0, theta: -0.30, phi: 0.86, ty: 1.10, lid: 1.02 },
-    { p: 1.00, r: 8.0, theta: -1.02, phi: 1.12, ty: 1.00, lid: 1.08 }
+    { r: 7.2, theta:  0.52, phi: 1.02, ty: 1.15, tz:  0.0, lid: 0.00 },
+    { r: 9.3, theta:  0.18, phi: 0.97, ty: 1.30, tz: -1.6, lid: 0.20 },
+    { r: 7.4, theta: -0.34, phi: 1.31, ty: 0.42, tz: -2.0, lid: 0.55 },
+    { r: 4.8, theta: -0.58, phi: 1.00, ty: 1.10, tz: -2.6, lid: 0.95 },
+    { r: 3.3, theta: -0.20, phi: 0.66, ty: 1.45, tz: -3.0, lid: 1.22 }
   ];
-  function sample(p) {
-    let a = stops[0], b = stops[stops.length - 1];
-    for (let i = 0; i < stops.length - 1; i++) {
-      if (p >= stops[i].p && p <= stops[i + 1].p) { a = stops[i]; b = stops[i + 1]; break; }
-    }
-    const t = a.p === b.p ? 0 : smooth(a.p, b.p, p);
-    return {
-      r: lerp(a.r, b.r, t), theta: lerp(a.theta, b.theta, t),
-      phi: lerp(a.phi, b.phi, t), ty: lerp(a.ty, b.ty, t), lid: lerp(a.lid, b.lid, t)
-    };
+  const lerpStop = (a, b, t) => ({
+    r: lerp(a.r, b.r, t), theta: lerp(a.theta, b.theta, t),
+    phi: lerp(a.phi, b.phi, t), ty: lerp(a.ty, b.ty, t),
+    tz: lerp(a.tz, b.tz, t), lid: lerp(a.lid, b.lid, t)
+  });
+  function sample(phase) {
+    const i = Math.max(0, Math.min(stops.length - 2, Math.floor(phase)));
+    const t = clamp01(phase - i);
+    return lerpStop(stops[i], stops[i + 1], t * t * (3 - 2 * t));
   }
 
-  let progress = 0, stageOpacity = 0;
+  let phase = 0, stageOpacity = 0;
   function readScroll() {
-    const palette = document.getElementById("materials");
-    const end = palette ? palette.offsetTop : window.innerHeight * 3;
-    progress = clamp01(window.scrollY / Math.max(end, 1));
-    // full and vivid on the cover, recedes to a quiet backdrop while the
-    // reader is in the text, then clears before the data sections
-    const recede = 1 - smooth(0.08, 0.36, progress) * 0.62; // 1.0 -> 0.38
-    const clear  = 1 - smooth(0.80, 1.0, progress);          // -> 0
-    stageOpacity = recede * clear;
+    const vh = window.innerHeight || 1;
+    const c = window.scrollY + vh * 0.5;          // viewport centre, document coords
+    const Yc = vh * 0.5;
+    const origin = document.getElementById("origin");
+    const scene = document.getElementById("scene");
+    const materials = document.getElementById("materials");
+    const originTop = origin ? origin.offsetTop : vh;
+    const sceneTop = scene ? scene.offsetTop : vh * 2;
+
+    // phase from whichever scene accord is nearest the viewport centre
+    const layers = scene ? scene.querySelectorAll(".scene-layer") : [];
+    if (layers.length) {
+      const centers = [];
+      layers.forEach(el => { const r = el.getBoundingClientRect(); centers.push(r.top + r.height / 2); });
+      const n = centers.length;
+      if (Yc <= centers[0]) {
+        phase = 1 - clamp01((centers[0] - Yc) / vh);        // approach hero -> air
+      } else if (Yc >= centers[n - 1]) {
+        phase = n;                                           // last accord
+      } else {
+        let k = 0;
+        for (let i = 0; i < n - 1; i++) { if (Yc >= centers[i] && Yc <= centers[i + 1]) { k = i; break; } }
+        phase = 1 + k + (Yc - centers[k]) / Math.max(centers[k + 1] - centers[k], 1);
+      }
+    } else {
+      phase = clamp01((c - originTop) / Math.max(sceneTop - originTop, 1));
+    }
+    phase = Math.max(0, Math.min(stops.length - 1, phase));
+
+    // opacity: hero full, dip while reading origin, lift through the scene,
+    // then clear out as the materials section arrives
+    const dip  = smooth(originTop - vh * 0.35, originTop + vh * 0.30, c);
+    const lift = smooth(sceneTop - vh * 0.35, sceneTop + vh * 0.15, c);
+    let op = 1 - dip * 0.55 + lift * 0.20;                  // ~1 -> ~0.45 -> ~0.65
+    if (materials) {
+      const mTop = materials.getBoundingClientRect().top;
+      op *= 1 - smooth(vh * 0.55, vh * 0.05, mTop);         // fade as materials reaches the top
+    }
+    stageOpacity = clamp01(op);
     canvas.style.opacity = stageOpacity.toFixed(3);
   }
 
   function applyFrame(time) {
-    const f = sample(progress);
+    const f = sample(phase);
 
-    // gentle idle when motion is allowed
-    const idleT = reduce ? 0 : Math.sin(time * 0.00035) * 0.035;
-    const idleY = reduce ? 0 : Math.sin(time * 0.0005) * 0.02;
+    // gentle idle, eased down as we zoom in so the close shots stay steady
+    const calm = 1 - clamp01((phase - 2.5) / 1.5);
+    const idleT = reduce ? 0 : Math.sin(time * 0.00035) * 0.022 * calm;
+    const idleY = reduce ? 0 : Math.sin(time * 0.0005) * 0.014 * calm;
     const theta = f.theta + idleT;
 
-    const target = new THREE.Vector3(0, f.ty + idleY, 0);
+    const target = new THREE.Vector3(0, f.ty + idleY, f.tz);
     const r = f.r;
     camera.position.set(
       target.x + r * Math.sin(f.phi) * Math.sin(theta),
@@ -221,9 +263,9 @@
     );
     camera.lookAt(target);
 
-    // lid opening + interior glow
+    // lid opening + interior glow (rises as the lid lifts toward the metal)
     lidPivot.rotation.z = f.lid;
-    warm.intensity = smooth(0.15, 0.55, progress) * 1.5;
+    warm.intensity = clamp01((f.lid - 0.25) / 0.75) * 1.7;
   }
 
   /* ---------- sizing ---------- */
