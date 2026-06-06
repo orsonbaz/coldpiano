@@ -1,0 +1,7 @@
+# local tooling (downloaded yt-dlp binary, etc.)
+.tools/
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+desktop.ini

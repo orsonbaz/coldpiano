@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cold Piano — an olfactive elegy for the Arctic</title>
+<meta name="description" content="Cold Piano: a fragrance composition translating Ludovico Einaudi's piano on the Arctic ice into scent. Full formula, costs and IFRA Category 4 calculation." />
+<meta name="color-scheme" content="dark" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Cold Piano — an olfactive elegy for the Arctic" />
+<meta property="og:description" content="A fragrance that smells the way a black grand piano looks alone on the Arctic ice." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+
+<!-- frosted grain overlay -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- scroll progress -->
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<!-- masthead -->
+<header class="masthead">
+  <a class="wordmark" href="#cover">cold&nbsp;piano</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Sections">index</button>
+</header>
+
+<!-- side index -->
+<nav class="sidenav" id="sidenav" aria-label="Section index">
+  <ol>
+    <li><a href="#cover" data-label="Cover"><span>00</span> cover</a></li>
+    <li><a href="#origin" data-label="Origin"><span>01</span> origin</a></li>
+    <li><a href="#scene" data-label="The scene"><span>02</span> the scene</a></li>
+    <li><a href="#palette" data-label="Materials"><span>03</span> the palette</a></li>
+    <li><a href="#formula" data-label="Formula"><span>04</span> the formula</a></li>
+    <li><a href="#cost" data-label="Cost"><span>05</span> the cost</a></li>
+    <li><a href="#ifra" data-label="IFRA"><span>06</span> compliance</a></li>
+    <li><a href="#colophon" data-label="Colophon"><span>07</span> colophon</a></li>
+  </ol>
+</nav>
+
+<main>
+
+  <!-- 00 — COVER -->
+  <section id="cover" class="cover">
+    <canvas id="iceCanvas" aria-hidden="true"></canvas>
+    <div class="cover-inner">
+      <p class="kicker reveal">eau de toilette · composition n° 1</p>
+      <h1 class="reveal">cold piano</h1>
+      <p class="cover-sub reveal">an olfactive elegy for the arctic</p>
+      <p class="cover-note reveal">A black grand piano, alone on a sheet of ice, before a wall of glacier.<br />This is what it smells like.</p>
+    </div>
+    <a class="scroll-cue reveal" href="#origin" aria-label="Scroll">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- 01 — ORIGIN -->
+  <section id="origin" class="band">
+    <div class="band-index">01 — origin</div>
+    <div class="prose">
+      <p class="lede reveal">In 2016 Ludovico Einaudi played a grand piano on a floating platform in the Arctic Ocean, a glacier calving behind him, the sea around him strewn with broken ice.</p>
+      <p class="reveal">Cold Piano is a translation of that image into scent — not the music, but the <em>cold around the instrument</em>: the wooden body breathing into freezing air, the metal of the strings, the ozone of glacial wind, and far below, the black mineral depth of the water.</p>
+      <p class="reveal">It is built from twelve raw materials, kept under sixty euros a kilo, and calculated to comply with IFRA Category&nbsp;4 at ten percent in alcohol. Everything that follows is the working of it — shown in full.</p>
+      <p class="ref reveal">
+        <a href="https://www.youtube.com/watch?v=2DLnhdnSUVs" target="_blank" rel="noopener">
+          ↗ Ludovico Einaudi — “Elegy for the Arctic” (Greenpeace)
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 02 — THE SCENE -->
+  <section id="scene" class="band band--dark">
+    <div class="band-index">02 — the scene</div>
+    <div class="scene-grid">
+      <div class="scene-text reveal">
+        <h2>Reading the cold</h2>
+        <p>The composition maps onto the picture. Each accord is a part of the scene — read from the air above the ice down to the water beneath it.</p>
+      </div>
+      <ul class="scene-layers" id="sceneLayers"><!-- built by JS --></ul>
+    </div>
+  </section>
+
+  <!-- 03 — THE PALETTE -->
+  <section id="palette" class="band">
+    <div class="band-index">03 — the palette</div>
+    <div class="palette-head reveal">
+      <h2>Twelve materials</h2>
+      <p>The full palette. Hover or tap a plate for its role in the scene, its character, and its place in the formula.</p>
+    </div>
+    <div class="gallery" id="gallery"><!-- built by JS --></div>
+  </section>
+
+  <!-- 04 — THE FORMULA -->
+  <section id="formula" class="band band--dark">
+    <div class="band-index">04 — the formula</div>
+    <div class="palette-head reveal">
+      <h2>The formula</h2>
+      <p>Parts per thousand of the compounded blend, with working dilutions. Prices are taken from the raw-material sheet, adjusted where Cold Piano uses a material more dilute than the sheet’s reference (marked <span class="adj-mark">adj</span>).</p>
+    </div>
+    <div class="table-wrap reveal">
+      <table class="ftable" id="formulaTable"><!-- built by JS --></table>
+    </div>
+    <p class="table-foot reveal">The compounded concentrate is ~<span id="activeConc"></span> active material; the rest is diluent (DPG) carried in from the working dilutions. Dosed at 10% in alcohol, the finished eau de toilette carries ~<span id="activeEdt"></span> active.</p>
+  </section>
+
+  <!-- 05 — THE COST -->
+  <section id="cost" class="band">
+    <div class="band-index">05 — the cost</div>
+    <div class="cost-grid">
+      <div class="cost-figure reveal">
+        <p class="cost-label">cost of the concentrate</p>
+        <p class="cost-big"><span id="costBig"></span><span class="unit">€/kg</span></p>
+        <p class="cost-budget">budget <strong>60 €/kg</strong> · <span id="costMargin"></span> under</p>
+        <div class="cost-bar"><span id="costBarFill"></span><i class="cost-bar-cap" id="costBarCap"></i></div>
+      </div>
+      <div class="cost-detail reveal">
+        <p>Cost is driven almost entirely by two materials used at 10%: <strong>Cypriol</strong> (the dark, smoky root, at €400/kg) and <strong>Ambroxan</strong> (the grey-amber base, at €500/kg). Together they make up <span id="costTopShare"></span> of the cost.</p>
+        <p>The trace metallics — Aldehyde C12 MNA and Rose Oxide — are diluted to 0.1%, a tenth of the sheet’s reference, so their cost is scaled to a tenth and they contribute almost nothing.</p>
+        <ul class="cost-rank" id="costRank"><!-- built by JS --></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — IFRA -->
+  <section id="ifra" class="band band--dark">
+    <div class="band-index">06 — compliance</div>
+    <div class="palette-head reveal">
+      <h2>IFRA Category 4</h2>
+      <p>Calculated for a fine fragrance dosed at 10% in alcohol, against the IFRA 51st Amendment. Concentration in the finished product = (parts × dilution ÷ 1000) × 10%.</p>
+    </div>
+    <div class="table-wrap reveal">
+      <table class="ftable ftable--ifra" id="ifraTable"><!-- built by JS --></table>
+    </div>
+    <div class="verdict reveal">
+      <p class="verdict-tag">compliant</p>
+      <p>No material in this formula carries a binding IFRA Category&nbsp;4 quantitative limit. The most concentrated material in the finished eau de toilette is <strong id="peakName"></strong> at <strong id="peakEdt"></strong> — comfortably unrestricted. The only two materials with any published usage ceiling, <strong>Eucalyptol</strong> (0.30% of concentrate vs. ≈20%) and <strong>Aldehyde&nbsp;C12&nbsp;MNA</strong> (0.004% vs. ≈2%), sit far beneath theirs. Verify against the current <a href="https://ifrafragrance.org/standards-library" target="_blank" rel="noopener">IFRA Standards Library</a> before any commercial launch.</p>
+    </div>
+  </section>
+
+  <!-- 07 — COLOPHON -->
+  <section id="colophon" class="band">
+    <div class="band-index">07 — colophon</div>
+    <div class="spec reveal">
+      <h2>The brief, answered</h2>
+      <ul class="spec-list" id="specList"><!-- built by JS --></ul>
+    </div>
+    <footer class="footer reveal">
+      <p>Cold Piano — composition &amp; concept by the perfumer.<br />
+      Visual interpretation built for the work; the reference performance is
+      <a href="https://www.youtube.com/watch?v=2DLnhdnSUVs" target="_blank" rel="noopener">Ludovico Einaudi’s “Elegy for the Arctic”</a> for Greenpeace.</p>
+      <p class="footer-mark">cold&nbsp;piano · mmxxvi</p>
+    </footer>
+  </section>
+
+</main>
+
+<script src="assets/data.js"></script>
+<script src="assets/main.js"></script>
+</body>
+</html>
