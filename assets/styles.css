@@ -156,7 +156,7 @@ body::before{
 .cover-inner > *{ text-shadow:0 1px 28px rgba(3,5,8,0.9), 0 1px 4px rgba(3,5,8,0.8); }
 
 .kicker{
-  font-size:11px; letter-spacing:0.42em; text-transform:lowercase;
+  font-size:11px; letter-spacing:0.34em; text-transform:none;
   color:var(--mist); margin:0 0 30px;
 }
 .cover h1{
@@ -217,6 +217,14 @@ body::before{
 }
 .prose p{ margin:0 0 1.4em; color:var(--ice); }
 .prose em{ font-family:var(--serif); font-style:italic; color:var(--amber-soft); }
+
+/* rationale: the whole statement set in the display serif */
+.prose--rationale p:not(.lede){
+  font-family:var(--serif); font-weight:300;
+  font-size:clamp(20px,2.5vw,28px); line-height:1.42;
+  letter-spacing:.005em; color:var(--ice); margin:0 0 1em;
+}
+.prose--rationale em{ font-style:italic; color:var(--amber-soft); }
 .ref a{
   font-size:13px; letter-spacing:0.04em; color:var(--mist);
   border-bottom:1px solid var(--hair); padding-bottom:2px;

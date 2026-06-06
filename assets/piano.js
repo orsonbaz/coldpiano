@@ -38,7 +38,7 @@
   const key = new THREE.DirectionalLight(0xdfeeff, 0.92); // cold key light
   key.position.set(-5, 8, 4);
   key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.mapSize.set(2048, 2048);
   key.shadow.camera.near = 1; key.shadow.camera.far = 30;
   key.shadow.camera.left = -6; key.shadow.camera.right = 6;
   key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
@@ -54,13 +54,16 @@
   // added to the piano group below, so it travels with the case
 
   /* ---------- materials ---------- */
-  const black = new THREE.MeshStandardMaterial({ color: 0x0a0c0e, metalness: 0.55, roughness: 0.32 });
-  const blackSoft = new THREE.MeshStandardMaterial({ color: 0x0c0f12, metalness: 0.3, roughness: 0.5 });
-  const wood = new THREE.MeshStandardMaterial({ color: 0x5a3a1f, metalness: 0.25, roughness: 0.55, emissive: 0x2a1606, emissiveIntensity: 0.45 });
-  const ivory = new THREE.MeshStandardMaterial({ color: 0xeef1f0, metalness: 0.05, roughness: 0.6 });
-  const ebony = new THREE.MeshStandardMaterial({ color: 0x111417, metalness: 0.2, roughness: 0.5 });
+  // lacquered piano black: clearcoat gives the wet, reflective sheen
+  const black = new THREE.MeshPhysicalMaterial({ color: 0x080a0c, metalness: 0.4, roughness: 0.22, clearcoat: 1.0, clearcoatRoughness: 0.18 });
+  const blackSoft = new THREE.MeshPhysicalMaterial({ color: 0x0c0f12, metalness: 0.3, roughness: 0.4, clearcoat: 0.6, clearcoatRoughness: 0.3 });
+  const wood = new THREE.MeshStandardMaterial({ color: 0x5a3a1f, metalness: 0.25, roughness: 0.5, emissive: 0x2a1606, emissiveIntensity: 0.45 });
+  const ivory = new THREE.MeshStandardMaterial({ color: 0xeef1f0, metalness: 0.05, roughness: 0.55 });
+  const ebony = new THREE.MeshPhysicalMaterial({ color: 0x111417, metalness: 0.2, roughness: 0.35, clearcoat: 0.7, clearcoatRoughness: 0.25 });
   const ice = new THREE.MeshStandardMaterial({ color: 0x6f7d86, metalness: 0.0, roughness: 0.96 });
-  const brass = new THREE.MeshStandardMaterial({ color: 0xb98a4e, metalness: 0.7, roughness: 0.35 });
+  const brass = new THREE.MeshStandardMaterial({ color: 0xc4934f, metalness: 0.85, roughness: 0.28 });
+  const water = new THREE.MeshStandardMaterial({ color: 0x16313c, metalness: 0.3, roughness: 0.18 });
+  const floe = new THREE.MeshStandardMaterial({ color: 0xc8d6dc, metalness: 0.0, roughness: 0.8 });
 
   /* ---------- the grand piano ---------- */
   const piano = new THREE.Group();
@@ -85,15 +88,17 @@
   wing.bezierCurveTo(0.64 * W, L * 0.66, 0.7 * W, L * 0.3, W / 2, 0.02);
   wing.lineTo(-W / 2, 0);
 
-  function wingGeo(depth) {
-    const g = new THREE.ExtrudeGeometry(wing, { depth: depth, bevelEnabled: false, curveSegments: 48 });
+  function wingGeo(depth, bevel) {
+    const opt = { depth: depth, bevelEnabled: !!bevel, curveSegments: 80 };
+    if (bevel) { opt.bevelThickness = 0.02; opt.bevelSize = 0.022; opt.bevelSegments = 4; }
+    const g = new THREE.ExtrudeGeometry(wing, opt);
     g.rotateX(-Math.PI / 2);            // lay flat: extrude (height) now along +Y
     return g;
   }
 
   // body: black walls, warm soundboard as the top cap (revealed by the lid).
   // ExtrudeGeometry group 0 = the flat faces (top/bottom), group 1 = the walls.
-  const body = new THREE.Mesh(wingGeo(CASE), [wood, black]);
+  const body = new THREE.Mesh(wingGeo(CASE, true), [wood, black]);
   body.position.y = baseY;
   body.castShadow = true; body.receiveShadow = true;
   piano.add(body);
@@ -143,7 +148,7 @@
 
   // legs (front-left, front-right, tail) + lyre-ish stub
   function leg(x, z) {
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.1, LEG, 14), black);
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.1, LEG, 28), black);
     m.position.set(x, LEG / 2, z);
     m.castShadow = true;
     piano.add(m);
@@ -162,15 +167,37 @@
     bl.position.set(x, baseY * 0.31, z); bl.castShadow = true; piano.add(bl);
   });
 
-  // ice platform
-  const platform = new THREE.Mesh(new THREE.BoxGeometry(W * 2.3, 0.18, L * 1.5), ice);
-  platform.position.set(0, -0.09, L * 0.42);
+  // ice platform (the patch the piano stands on)
+  const platform = new THREE.Mesh(new THREE.BoxGeometry(W * 2.3, 0.2, L * 1.5), ice);
+  platform.position.set(0, -0.1, 0);
   platform.receiveShadow = true;
   scene.add(platform);
 
+  // the sea, all around and below the patch of ice
+  const sea = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), water);
+  sea.rotation.x = -Math.PI / 2;
+  sea.position.y = -0.06;
+  sea.receiveShadow = true;
+  scene.add(sea);
+
+  // broken ice floes drifting on the water, frozen and not
+  const floes = new THREE.Group();
+  const seeded = (n) => { let x = Math.sin(n * 127.1) * 43758.5453; return x - Math.floor(x); }; // stable per-index
+  for (let i = 0; i < 30; i++) {
+    const ang = seeded(i + 1) * Math.PI * 2;
+    const rad = 3.2 + seeded(i + 7) * 12;
+    const sx = 0.35 + seeded(i + 3) * 1.7;
+    const sz = sx * (0.5 + seeded(i + 5) * 0.9);
+    const f = new THREE.Mesh(new THREE.BoxGeometry(sx, 0.05 + seeded(i + 9) * 0.08, sz), floe);
+    f.position.set(Math.cos(ang) * rad, 0.015, Math.sin(ang) * rad - 0.4);
+    f.rotation.y = seeded(i + 11) * Math.PI;
+    f.castShadow = true; f.receiveShadow = true;
+    floes.add(f);
+  }
+  scene.add(floes);
+
   // recenter the whole piano around the world origin (roughly its mass center)
   piano.position.set(0.1, 0, -L * 0.42);
-  platform.position.z = 0;
 
   /* ---------- scroll choreography ----------
      Camera waypoints keyed by a "phase" 0..4 that tracks the scene:
